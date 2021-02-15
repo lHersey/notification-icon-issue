@@ -1,11 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
+import { Button, StyleSheet, View } from "react-native";
+import NotificationService from "./notification";
+
+const handleNotificationSchedule = async () => {
+  const t = new Date();
+  t.setSeconds(t.getSeconds() + 10);
+
+  NotificationService.schedule({ title: "Test" }, t.getTime());
+};
 
 export default function App() {
+  useEffect(() => {
+    NotificationService.initialize();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Button title="Notification in 5 sec..." onPress={handleNotificationSchedule} />
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +26,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
